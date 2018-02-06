@@ -1,4 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group='com.github.rafaelcorreiapoli'
 
 gradle.projectsEvaluated {
     def buildTypes = android.buildTypes.collect { type -> type.name }
