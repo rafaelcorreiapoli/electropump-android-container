@@ -37,6 +37,8 @@ import com.facebook.react.ReactInstanceManagerBuilder;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.common.LifecycleState;
 import com.facebook.react.shell.MainReactPackage;
+import com.walmartlabs.ern.container.plugins.BridgePlugin;
+import com.ern.api.impl.HttpClientApiController;
 
 public class ElectrodeReactContainer {
     private static String TAG = ElectrodeReactContainer.class.getSimpleName();
@@ -79,6 +81,7 @@ public class ElectrodeReactContainer {
                 .setInitialLifecycleState(LifecycleState.BEFORE_CREATE);
 
         final List<ReactPackage> reactPackages = new ArrayList<>();
+        reactPackages.add(new BridgePlugin().hook(application, reactInstanceManagerBuilder));
 
         mReactInstanceManager = reactInstanceManagerBuilder.build();
         mReactInstanceManager.addReactInstanceEventListener(new ReactInstanceManager.ReactInstanceEventListener() {
@@ -149,11 +152,12 @@ public class ElectrodeReactContainer {
      ) {
         if (null == sInstance) {
              sInstance = new ElectrodeReactContainer(application, reactContainerConfig
-);
+                    );
 
             // Load bundle now (engine might offer lazy loading later down the road)
             getReactInstanceManager().createReactContextInBackground();
 
+            HttpClientApiController.register(null);
 
             Log.d(TAG, "ELECTRODE REACT-NATIVE ENGINE INITIALIZED\n" + reactContainerConfig.toString());
         }
